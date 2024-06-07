@@ -40,7 +40,7 @@ class PaymentController extends Controller
                 'intent' => User::findOrFail(auth()->user()->id)->createSetupIntent(),
             ]);
         }catch(Exception $e){
-            return redirect()->back()->with('error','Unable to connect to Stripe Server '.$e->getMessage());
+            return redirect()->back()->with('error','Unable to connect to Payment Server, We\'re Sorry');
         }        
     }
 
@@ -79,12 +79,16 @@ class PaymentController extends Controller
         try{
             return $request->user()->checkoutCharge($item->price * 100, $item->name, $request->quantity ?? 1);
         }catch(Exception $e){
-            return redirect()->back()->with('error','Unable to connect to Stripe Server '.$e->getMessage());
+            return redirect()->back()->with('error','Unable to connect to Payment Server, We\'re Sorry');
         } 
     }
 
     public function getUserInvoices()
     {
-        return view('invoices',['invoices'=>Auth::user()->invoices()]);
+        try{
+            return view('invoices',['invoices'=>Auth::user()->invoices()]);
+        }catch(Exception $e){
+            return redirect()->back()->with('error','Unable to connect to Payment Server, We\'re Sorry');
+        } 
     }
 }
