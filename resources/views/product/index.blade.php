@@ -19,7 +19,7 @@
                             </div>
                             <div class="body border-b border-gray-300 py-2">
                                 <p>
-                                    {{ Str::limit($product->description, 30)}}
+                                    {{ Str::limit($product->description, 35)}}
                                 </p>
                             </div>
                             <div class="footer flex justify-between py-2">
